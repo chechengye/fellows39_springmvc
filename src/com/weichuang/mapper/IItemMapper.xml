@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.weichuang.mapper.IItemMapper">
+
+    <select id="getItemById" parameterType="String" resultType="Item">
+        select * from items where id = #{id}
+    </select>
+    <!--默认返回受影响行数-->
+    <update id="updateItem" parameterType="Item">
+        update items
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="price != null and price != ''">
+                price = #{price},
+            </if>
+            <if test="detail != null and detail != ''">
+                detail = #{detail},
+            </if>
+            <if test="pic != null and pic != ''">
+                pic = #{pic},
+            </if>
+            <if test="createtime != null and createtime != ''">
+                createtime = #{createtime},
+            </if>
+            id = #{id}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
+    <select id="getAllItem" resultType="Item">
+        select * from items
+    </select>
+
+    <delete id="deleteItems">
+        delete from items
+        <where>
+            <foreach collection="array" open="id in (" separator="," close=")" item="id">
+                #{id}
+            </foreach>
+        </where>
+    </delete>
+
+
+</mapper>
